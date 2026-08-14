@@ -72,14 +72,23 @@ export const ROOM = {
   wallThickness: 0.14,
 } as const;
 
+const MEDIA_CDN = "https://cdn.jsdelivr.net/gh/ryank33/shared-gallery-room@main/public/media";
+
+function mediaUrl(file: string) {
+  if (typeof window === "undefined") return `/media/${file}`;
+  const host = window.location.hostname;
+  if (host === "localhost" || host === "127.0.0.1") return `/media/${file}`;
+  return `${MEDIA_CDN}/${file}`;
+}
+
 export const MEDIA = {
   images: [
-    { id: "strata", src: "/media/art-strata.jpg", title: "Strata Form", credit: "North wall" },
-    { id: "night", src: "/media/art-night.jpg", title: "Night Harbor", credit: "North wall" },
-    { id: "canyon", src: "/media/art-canyon.jpg", title: "Canyon Archive", credit: "West wall" },
+    { id: "strata", src: mediaUrl("art-strata.jpg"), title: "Strata Form", credit: "North wall" },
+    { id: "night", src: mediaUrl("art-night.jpg"), title: "Night Harbor", credit: "North wall" },
+    { id: "canyon", src: mediaUrl("art-canyon.jpg"), title: "Canyon Archive", credit: "West wall" },
   ],
-  video: { src: "/media/gallery-loop.mp4", title: "Sculpture Loop", credit: "East wall" },
-  floor: "/media/floor-oak.jpg",
-  wall: "/media/wall-plaster.jpg",
-  runner: "/media/floor-slate.jpg",
-} as const;
+  video: { src: mediaUrl("gallery-loop.mp4"), title: "Sculpture Loop", credit: "East wall" },
+  floor: mediaUrl("floor-oak.jpg"),
+  wall: mediaUrl("wall-plaster.jpg"),
+  runner: mediaUrl("floor-slate.jpg"),
+};
