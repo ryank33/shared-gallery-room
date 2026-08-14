@@ -137,7 +137,16 @@ export default defineConfig(({ command }) => ({
     authPopupPlugin(),
     tailwindcss(),
     tanstackStart(),
-    ...(command === "build" ? [nitro({ preset: "vercel" })] : []),
+    ...(command === "build"
+      ? [
+          nitro({
+            preset:
+              process.env.CF_PAGES || process.env.NITRO_PRESET === "cloudflare-pages"
+                ? "cloudflare-pages"
+                : "vercel",
+          }),
+        ]
+      : []),
     viteReact(),
   ],
 }));
